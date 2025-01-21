@@ -1,0 +1,32 @@
+// Code generated with goa v3.19.1, DO NOT EDIT.
+//
+// ForwarderService protocol buffer definition
+//
+// Command:
+// $ goa gen
+// github.com/LeonDavidZipp/StackITCloudAcceleratorCodingChallenge/src/api/design
+// --output ./src/api
+
+syntax = "proto3";
+
+package forwarder_service;
+
+option go_package = "/forwarder_servicepb";
+
+// The forwarder service forwards warnings to the appropriate channel
+service ForwarderService {
+	// Forwards a warning to the appropriate channel
+	rpc Forward (ForwardRequest) returns (ForwardResponse);
+}
+
+message ForwardRequest {
+	// The type of message
+	string type = 1;
+	// The name of the event
+	string name = 2;
+	// The description of the event
+	string description = 3;
+}
+
+message ForwardResponse {
+}

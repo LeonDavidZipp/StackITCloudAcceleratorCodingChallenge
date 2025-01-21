@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+    title: Forwarder API
+    description: The forwarder api forwards warnings to the appropriate channel
+    version: 0.0.1
+host: localhost:80
+consumes:
+    - application/json
+    - application/xml
+    - application/gob
+produces:
+    - application/json
+    - application/xml
+    - application/gob
+paths:
+    /forward:
+        post:
+            tags:
+                - ForwarderService
+            summary: forward ForwarderService
+            description: Forwards a warning to the appropriate channel
+            operationId: ForwarderService#forward
+            parameters:
+                - name: ForwardRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/Message'
+                    required:
+                        - type
+                        - name
+                        - description
+            responses:
+                "201":
+                    description: Created response.
+            schemes:
+                - http
+definitions:
+    Message:
+        title: Message
+        type: object
+        properties:
+            description:
+                type: string
+                description: The description of the event
+                example: Porro aspernatur ab.
+            name:
+                type: string
+                description: The name of the event
+                example: Accusantium molestiae non sunt tempora.
+            type:
+                type: string
+                description: The type of message
+                example: Libero odit perferendis nesciunt id unde delectus.
+        example:
+            description: Officia beatae reprehenderit maiores reiciendis.
+            name: Est minima consequatur corporis.
+            type: Deserunt molestiae necessitatibus.
+        required:
+            - type
+            - name
+            - description
