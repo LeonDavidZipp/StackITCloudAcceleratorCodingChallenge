@@ -29,7 +29,10 @@ func NewClient(forward goa.Endpoint) *Client {
 }
 
 // Forward calls the "forward" endpoint of the "ForwarderService" service.
-func (c *Client) Forward(ctx context.Context, p *Message) (err error) {
+// Forward may return the following errors:
+//   - "InvalidNotificationType" (type InvalidNotificationType)
+//   - error: internal error
+func (c *Client) Forward(ctx context.Context, p *Notification) (err error) {
 	_, err = c.ForwardEndpoint(ctx, p)
 	return
 }

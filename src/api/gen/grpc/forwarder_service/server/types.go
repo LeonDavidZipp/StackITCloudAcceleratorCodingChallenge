@@ -16,8 +16,8 @@ import (
 
 // NewForwardPayload builds the payload of the "forward" endpoint of the
 // "ForwarderService" service from the gRPC request type.
-func NewForwardPayload(message *forwarder_servicepb.ForwardRequest) *forwarderservice.Message {
-	v := &forwarderservice.Message{
+func NewForwardPayload(message *forwarder_servicepb.ForwardRequest) *forwarderservice.Notification {
+	v := &forwarderservice.Notification{
 		Type:        message.Type,
 		Name:        message.Name,
 		Description: message.Description,

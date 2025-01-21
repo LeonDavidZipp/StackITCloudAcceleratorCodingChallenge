@@ -37,7 +37,7 @@ func DecodeForwardRequest(ctx context.Context, v any, md metadata.MD) (any, erro
 			return nil, goagrpc.ErrInvalidType("ForwarderService", "forward", "*forwarder_servicepb.ForwardRequest", v)
 		}
 	}
-	var payload *forwarderservice.Message
+	var payload *forwarderservice.Notification
 	{
 		payload = NewForwardPayload(message)
 	}

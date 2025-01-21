@@ -14,6 +14,7 @@ import (
 
 	forwarder_servicepb "github.com/LeonDavidZipp/StackITCloudAcceleratorCodingChallenge/src/api/gen/grpc/forwarder_service/pb"
 	goagrpc "goa.design/goa/v3/grpc"
+	goapb "goa.design/goa/v3/grpc/pb"
 	goa "goa.design/goa/v3/pkg"
 	"google.golang.org/grpc"
 )
@@ -39,7 +40,13 @@ func (c *Client) Forward() goa.Endpoint {
 			nil)
 		res, err := inv.Invoke(ctx, v)
 		if err != nil {
-			return nil, goa.Fault(err.Error())
+			resp := goagrpc.DecodeError(err)
+			switch message := resp.(type) {
+			case *goapb.ErrorResponse:
+				return nil, goagrpc.NewServiceError(message)
+			default:
+				return nil, goa.Fault(err.Error())
+			}
 		}
 		return res, nil
 	}

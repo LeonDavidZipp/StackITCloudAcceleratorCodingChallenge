@@ -38,7 +38,7 @@ func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 // "forward" of service "ForwarderService".
 func NewForwardEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*Message)
+		p := req.(*Notification)
 		return nil, s.Forward(ctx, p)
 	}
 }

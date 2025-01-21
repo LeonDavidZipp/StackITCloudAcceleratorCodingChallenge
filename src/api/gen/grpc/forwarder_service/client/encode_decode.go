@@ -36,9 +36,9 @@ func BuildForwardFunc(grpccli forwarder_servicepb.ForwarderServiceClient, cliopt
 // EncodeForwardRequest encodes requests sent to ForwarderService forward
 // endpoint.
 func EncodeForwardRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
-	payload, ok := v.(*forwarderservice.Message)
+	payload, ok := v.(*forwarderservice.Notification)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("ForwarderService", "forward", "*forwarderservice.Message", v)
+		return nil, goagrpc.ErrInvalidType("ForwarderService", "forward", "*forwarderservice.Notification", v)
 	}
 	return NewProtoForwardRequest(payload), nil
 }

@@ -34,7 +34,7 @@ type ForwardRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The type of message
+	// The type of notification
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// The name of the event
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`

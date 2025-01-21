@@ -17,7 +17,7 @@ import (
 // ForwardRequestBody is the type of the "ForwarderService" service "forward"
 // endpoint HTTP request body.
 type ForwardRequestBody struct {
-	// The type of message
+	// The type of notification
 	Type *string `form:"type,omitempty" json:"type,omitempty" xml:"type,omitempty"`
 	// The name of the event
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
@@ -25,9 +25,10 @@ type ForwardRequestBody struct {
 	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
 }
 
-// NewForwardMessage builds a ForwarderService service forward endpoint payload.
-func NewForwardMessage(body *ForwardRequestBody) *forwarderservice.Message {
-	v := &forwarderservice.Message{
+// NewForwardNotification builds a ForwarderService service forward endpoint
+// payload.
+func NewForwardNotification(body *ForwardRequestBody) *forwarderservice.Notification {
+	v := &forwarderservice.Notification{
 		Type:        *body.Type,
 		Name:        *body.Name,
 		Description: *body.Description,

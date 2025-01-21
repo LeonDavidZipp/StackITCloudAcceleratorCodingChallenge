@@ -15,6 +15,7 @@ import (
 	"io"
 	"net/http"
 
+	forwarderservice "github.com/LeonDavidZipp/StackITCloudAcceleratorCodingChallenge/src/api/gen/forwarder_service"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
 )
@@ -51,8 +52,32 @@ func DecodeForwardRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp
 		if err != nil {
 			return nil, err
 		}
-		payload := NewForwardMessage(&body)
+		payload := NewForwardNotification(&body)
 
 		return payload, nil
+	}
+}
+
+// EncodeForwardError returns an encoder for errors returned by the forward
+// ForwarderService endpoint.
+func EncodeForwardError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+	encodeError := goahttp.ErrorEncoder(encoder, formatter)
+	return func(ctx context.Context, w http.ResponseWriter, v error) error {
+		var en goa.GoaErrorNamer
+		if !errors.As(v, &en) {
+			return encodeError(ctx, w, v)
+		}
+		switch en.GoaErrorName() {
+		case "InvalidNotificationType":
+			var res forwarderservice.InvalidNotificationType
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadRequest)
+			return enc.Encode(body)
+		default:
+			return encodeError(ctx, w, v)
+		}
 	}
 }

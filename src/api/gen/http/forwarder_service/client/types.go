@@ -16,7 +16,7 @@ import (
 // ForwardRequestBody is the type of the "ForwarderService" service "forward"
 // endpoint HTTP request body.
 type ForwardRequestBody struct {
-	// The type of message
+	// The type of notification
 	Type string `form:"type" json:"type" xml:"type"`
 	// The name of the event
 	Name string `form:"name" json:"name" xml:"name"`
@@ -26,11 +26,19 @@ type ForwardRequestBody struct {
 
 // NewForwardRequestBody builds the HTTP request body from the payload of the
 // "forward" endpoint of the "ForwarderService" service.
-func NewForwardRequestBody(p *forwarderservice.Message) *ForwardRequestBody {
+func NewForwardRequestBody(p *forwarderservice.Notification) *ForwardRequestBody {
 	body := &ForwardRequestBody{
 		Type:        p.Type,
 		Name:        p.Name,
 		Description: p.Description,
 	}
 	return body
+}
+
+// NewForwardInvalidNotificationType builds a ForwarderService service forward
+// endpoint InvalidNotificationType error.
+func NewForwardInvalidNotificationType(body string) forwarderservice.InvalidNotificationType {
+	v := forwarderservice.InvalidNotificationType(body)
+
+	return v
 }

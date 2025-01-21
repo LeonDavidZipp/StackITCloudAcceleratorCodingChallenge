@@ -30,9 +30,9 @@ func UsageCommands() string {
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` forwarder-service forward --message '{
-      "description": "Qui ex temporibus voluptatum sunt.",
-      "name": "Adipisci ullam dolorem omnis doloribus.",
-      "type": "Eum ut ut dolores sit quo."
+      "description": "Accusantium molestiae non sunt tempora.",
+      "name": "Libero odit perferendis nesciunt id unde delectus.",
+      "type": "Qui ex temporibus voluptatum sunt."
    }'` + "\n" +
 		""
 }
@@ -144,9 +144,9 @@ Forwards a warning to the appropriate channel
 
 Example:
     %[1]s forwarder-service forward --message '{
-      "description": "Qui ex temporibus voluptatum sunt.",
-      "name": "Adipisci ullam dolorem omnis doloribus.",
-      "type": "Eum ut ut dolores sit quo."
+      "description": "Accusantium molestiae non sunt tempora.",
+      "name": "Libero odit perferendis nesciunt id unde delectus.",
+      "type": "Qui ex temporibus voluptatum sunt."
    }'
 `, os.Args[0])
 }

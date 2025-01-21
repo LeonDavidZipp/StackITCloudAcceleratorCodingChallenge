@@ -16,7 +16,7 @@ import (
 // The forwarder service forwards warnings to the appropriate channel
 type Service interface {
 	// Forwards a warning to the appropriate channel
-	Forward(context.Context, *Message) (err error)
+	Forward(context.Context, *Notification) (err error)
 }
 
 // APIName is the name of the API as defined in the design.
@@ -35,12 +35,33 @@ const ServiceName = "ForwarderService"
 // MethodKey key.
 var MethodNames = [1]string{"forward"}
 
-// Message is the payload type of the ForwarderService service forward method.
-type Message struct {
-	// The type of message
+// Invalid notification type
+type InvalidNotificationType string
+
+// Notification is the payload type of the ForwarderService service forward
+// method.
+type Notification struct {
+	// The type of notification
 	Type string
 	// The name of the event
 	Name string
 	// The description of the event
 	Description string
+}
+
+// Error returns an error description.
+func (e InvalidNotificationType) Error() string {
+	return "Invalid notification type"
+}
+
+// ErrorName returns "InvalidNotificationType".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e InvalidNotificationType) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "InvalidNotificationType".
+func (e InvalidNotificationType) GoaErrorName() string {
+	return "InvalidNotificationType"
 }

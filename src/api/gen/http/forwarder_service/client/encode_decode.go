@@ -39,9 +39,9 @@ func (c *Client) BuildForwardRequest(ctx context.Context, v any) (*http.Request,
 // ForwarderService forward server.
 func EncodeForwardRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
 	return func(req *http.Request, v any) error {
-		p, ok := v.(*forwarderservice.Message)
+		p, ok := v.(*forwarderservice.Notification)
 		if !ok {
-			return goahttp.ErrInvalidType("ForwarderService", "forward", "*forwarderservice.Message", v)
+			return goahttp.ErrInvalidType("ForwarderService", "forward", "*forwarderservice.Notification", v)
 		}
 		body := NewForwardRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -54,6 +54,9 @@ func EncodeForwardRequest(encoder func(*http.Request) goahttp.Encoder) func(*htt
 // DecodeForwardResponse returns a decoder for responses returned by the
 // ForwarderService forward endpoint. restoreBody controls whether the response
 // body should be restored after having been read.
+// DecodeForwardResponse may return the following errors:
+//   - "InvalidNotificationType" (type forwarderservice.InvalidNotificationType): http.StatusBadRequest
+//   - error: internal error
 func DecodeForwardResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -71,6 +74,16 @@ func DecodeForwardResponse(decoder func(*http.Response) goahttp.Decoder, restore
 		switch resp.StatusCode {
 		case http.StatusCreated:
 			return nil, nil
+		case http.StatusBadRequest:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("ForwarderService", "forward", err)
+			}
+			return nil, NewForwardInvalidNotificationType(body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("ForwarderService", "forward", resp.StatusCode, string(body))

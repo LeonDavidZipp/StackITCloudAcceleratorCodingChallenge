@@ -19,18 +19,18 @@ import (
 
 // BuildForwardPayload builds the payload for the ForwarderService forward
 // endpoint from CLI flags.
-func BuildForwardPayload(forwarderServiceForwardMessage string) (*forwarderservice.Message, error) {
+func BuildForwardPayload(forwarderServiceForwardMessage string) (*forwarderservice.Notification, error) {
 	var err error
 	var message forwarder_servicepb.ForwardRequest
 	{
 		if forwarderServiceForwardMessage != "" {
 			err = json.Unmarshal([]byte(forwarderServiceForwardMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Qui ex temporibus voluptatum sunt.\",\n      \"name\": \"Adipisci ullam dolorem omnis doloribus.\",\n      \"type\": \"Eum ut ut dolores sit quo.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Accusantium molestiae non sunt tempora.\",\n      \"name\": \"Libero odit perferendis nesciunt id unde delectus.\",\n      \"type\": \"Qui ex temporibus voluptatum sunt.\"\n   }'")
 			}
 		}
 	}
-	v := &forwarderservice.Message{
+	v := &forwarderservice.Notification{
 		Type:        message.Type,
 		Name:        message.Name,
 		Description: message.Description,

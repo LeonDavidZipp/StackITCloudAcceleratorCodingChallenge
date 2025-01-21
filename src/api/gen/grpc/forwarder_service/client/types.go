@@ -16,7 +16,7 @@ import (
 
 // NewProtoForwardRequest builds the gRPC request type from the payload of the
 // "forward" endpoint of the "ForwarderService" service.
-func NewProtoForwardRequest(payload *forwarderservice.Message) *forwarder_servicepb.ForwardRequest {
+func NewProtoForwardRequest(payload *forwarderservice.Notification) *forwarder_servicepb.ForwardRequest {
 	message := &forwarder_servicepb.ForwardRequest{
 		Type:        payload.Type,
 		Name:        payload.Name,

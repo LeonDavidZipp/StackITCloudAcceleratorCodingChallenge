@@ -11,11 +11,13 @@ package server
 
 import (
 	"context"
+	"errors"
 
 	forwarderservice "github.com/LeonDavidZipp/StackITCloudAcceleratorCodingChallenge/src/api/gen/forwarder_service"
 	forwarder_servicepb "github.com/LeonDavidZipp/StackITCloudAcceleratorCodingChallenge/src/api/gen/grpc/forwarder_service/pb"
 	goagrpc "goa.design/goa/v3/grpc"
 	goa "goa.design/goa/v3/pkg"
+	"google.golang.org/grpc/codes"
 )
 
 // Server implements the forwarder_servicepb.ForwarderServiceServer interface.
@@ -48,6 +50,13 @@ func (s *Server) Forward(ctx context.Context, message *forwarder_servicepb.Forwa
 	ctx = context.WithValue(ctx, goa.ServiceKey, "ForwarderService")
 	resp, err := s.ForwardH.Handle(ctx, message)
 	if err != nil {
+		var en goa.GoaErrorNamer
+		if errors.As(err, &en) {
+			switch en.GoaErrorName() {
+			case "InvalidNotificationType":
+				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
+			}
+		}
 		return nil, goagrpc.EncodeError(err)
 	}
 	return resp.(*forwarder_servicepb.ForwardResponse), nil

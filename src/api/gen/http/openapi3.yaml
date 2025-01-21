@@ -19,7 +19,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Message'
+                            $ref: '#/components/schemas/Notification'
                         example:
                             description: Perspiciatis et.
                             name: Exercitationem cumque eius minus perferendis.
@@ -27,27 +27,35 @@ paths:
             responses:
                 "201":
                     description: Created response.
+                "400":
+                    description: 'InvalidNotificationType: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Harum optio ipsa dolor placeat debitis.
+                            example: Autem consectetur omnis neque.
 components:
     schemas:
-        Message:
+        Notification:
             type: object
             properties:
                 description:
                     type: string
                     description: The description of the event
-                    example: Ab dolorem vel omnis ipsum facilis.
+                    example: Optio iusto hic.
                 name:
                     type: string
                     description: The name of the event
-                    example: Est quo.
+                    example: Exercitationem in tenetur quasi.
                 type:
                     type: string
-                    description: The type of message
-                    example: Ut exercitationem et qui odit.
+                    description: The type of notification
+                    example: Ab dolorem vel omnis ipsum facilis.
             example:
-                description: Occaecati necessitatibus.
-                name: Optio iusto hic.
-                type: Exercitationem in tenetur quasi.
+                description: Doloribus qui.
+                name: Velit repellendus quis magnam non aut aut.
+                type: Occaecati necessitatibus.
             required:
                 - type
                 - name

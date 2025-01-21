@@ -25,7 +25,7 @@ paths:
                   in: body
                   required: true
                   schema:
-                    $ref: '#/definitions/Message'
+                    $ref: '#/definitions/Notification'
                     required:
                         - type
                         - name
@@ -33,29 +33,33 @@ paths:
             responses:
                 "201":
                     description: Created response.
+                "400":
+                    description: Bad Request response.
+                    schema:
+                        type: string
             schemes:
                 - http
 definitions:
-    Message:
-        title: Message
+    Notification:
+        title: Notification
         type: object
         properties:
             description:
                 type: string
                 description: The description of the event
-                example: Porro aspernatur ab.
+                example: Est minima consequatur corporis.
             name:
                 type: string
                 description: The name of the event
-                example: Accusantium molestiae non sunt tempora.
+                example: Deserunt molestiae necessitatibus.
             type:
                 type: string
-                description: The type of message
-                example: Libero odit perferendis nesciunt id unde delectus.
+                description: The type of notification
+                example: Porro aspernatur ab.
         example:
-            description: Officia beatae reprehenderit maiores reiciendis.
-            name: Est minima consequatur corporis.
-            type: Deserunt molestiae necessitatibus.
+            description: Est quo.
+            name: Ut exercitationem et qui odit.
+            type: Officia beatae reprehenderit maiores reiciendis.
         required:
             - type
             - name

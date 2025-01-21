@@ -20,7 +20,7 @@ service ForwarderService {
 }
 
 message ForwardRequest {
-	// The type of message
+	// The type of notification
 	string type = 1;
 	// The name of the event
 	string name = 2;

@@ -18,7 +18,7 @@ import (
 
 // BuildForwardPayload builds the payload for the ForwarderService forward
 // endpoint from CLI flags.
-func BuildForwardPayload(forwarderServiceForwardBody string) (*forwarderservice.Message, error) {
+func BuildForwardPayload(forwarderServiceForwardBody string) (*forwarderservice.Notification, error) {
 	var err error
 	var body ForwardRequestBody
 	{
@@ -27,7 +27,7 @@ func BuildForwardPayload(forwarderServiceForwardBody string) (*forwarderservice.
 			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Perspiciatis et.\",\n      \"name\": \"Exercitationem cumque eius minus perferendis.\",\n      \"type\": \"Qui ut laborum aut.\"\n   }'")
 		}
 	}
-	v := &forwarderservice.Message{
+	v := &forwarderservice.Notification{
 		Type:        body.Type,
 		Name:        body.Name,
 		Description: body.Description,
