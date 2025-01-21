@@ -42,16 +42,16 @@ func (s *ForwarderService) Forward(ctx context.Context, m *f.Notification) (err 
 
 // forwardRequestBody defines the request body for the forward method of the telegram bot api
 type forwardRequestBody struct {
-	chatID string
-	text   string
+	ChatID string `json:"chat_id" required:"true"`
+	Text   string `json:"text" required:"true"`
 }
 
 // forward forwards a warning to the appropriate channel
 func (s *ForwarderService) forward(ctx context.Context, m *f.Notification) (err error) {
 	body, err := json.Marshal(
 		forwardRequestBody{
-			chatID: s.chatID,
-			text:   "Warning\n" + m.Description,
+			ChatID: s.chatID,
+			Text:   "Warning\n" + m.Description,
 		},
 	)
 	if err != nil {
