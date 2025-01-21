@@ -8,9 +8,9 @@ COPY src ./src
 
 RUN	go mod download && \
 	go mod verify && \
-	go mod tidy && \
-	go build -o ForwarderServer -race -msan -asan \
-		github.com/LeonDavidZipp/StackITCloudAcceleratorCodingChallenge/main && \
+	go mod tidy
+RUN go build -o ForwarderServer \
+		./src/main.go && \
 	chmod +x ForwarderServer
 
 CMD ["./ForwarderServer"]
