@@ -14,8 +14,8 @@ var _ = dsl.API("ForwarderAPI", func() {
 
 		dsl.Host("development", func() {
 			dsl.Description("Development hosts.")
-			dsl.URI("http://localhost:80/forward")
-			dsl.URI("grpc://localhost:8080")
+			dsl.URI("http://localhost:8080/forward")
+			dsl.URI("grpc://localhost:8088")
 		})
 	})
 })
