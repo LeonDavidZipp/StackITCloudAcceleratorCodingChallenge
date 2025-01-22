@@ -16,11 +16,10 @@ import (
 	"net"
 	"net/http"
 	"sync"
-	"time"
 )
 
 // Creates a new HTTP server
-func newHttpServer(ctx context.Context, ep *s.Endpoints) *http.Server {
+func newHttpServer(ctx context.Context, endp *s.Endpoints) *http.Server {
 	// prepare server parameters
 	mux := goahttp.NewMuxer()
 	decoder := goahttp.RequestDecoder
@@ -29,7 +28,7 @@ func newHttpServer(ctx context.Context, ep *s.Endpoints) *http.Server {
 		log.Printf("encoding error: %s", err.Error())
 	}
 
-	server := shttp.New(ep, mux, decoder, encoder, errorHandler, nil)
+	server := shttp.New(endp, mux, decoder, encoder, errorHandler, nil)
 	server.Mount(mux)
 
 	var handler http.Handler = mux
@@ -38,7 +37,7 @@ func newHttpServer(ctx context.Context, ep *s.Endpoints) *http.Server {
 	httpServer := &http.Server{
 		Addr:              ":" + c.HTTP_SERVER_PORT,
 		Handler:           handler,
-		ReadHeaderTimeout: 60 * time.Second,
+		ReadHeaderTimeout: c.TIMEOUT,
 	}
 
 	return httpServer
@@ -70,7 +69,7 @@ func main() {
 	)
 	ctx, cancel := context.WithTimeout(
 		ctx,
-		60*time.Second,
+		c.TIMEOUT,
 	)
 	defer cancel()
 

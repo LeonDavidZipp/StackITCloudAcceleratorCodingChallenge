@@ -47,11 +47,11 @@ type forwardRequestBody struct {
 }
 
 // forward forwards a warning to the appropriate channel
-func (s *ForwarderService) forward(ctx context.Context, m *f.Notification) (err error) {
+func (s *ForwarderService) forward(ctx context.Context, not *f.Notification) (err error) {
 	body, err := json.Marshal(
 		forwardRequestBody{
 			ChatID: s.chatID,
-			Text:   "Warning\n" + m.Description,
+			Text:   "Warning\n" + not.Description,
 		},
 	)
 	if err != nil {
